@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="app.title">Clavier Arabe Universel</title>
+    <meta name="description" content="Plateforme multilingue professionnelle supportant l'arabe, le darija, le français, l'anglais et l'amazigh avec intégration Google Blogger">
+    
+    <!-- Polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Noto+Sans+Tifinagh&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+</head>
+<body>
+    <!-- Loader de chargement -->
+    <div id="app-loader" class="loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <h2 data-i18n="app.title">Clavier Arabe Universel</h2>
+            <p data-i18n="loading">Chargement...</p>
+        </div>
+    </div>
+
+    <!-- Application principale -->
+    <div id="app" class="app-container" style="display: none;">
+        <!-- En-tête -->
+        <header class="app-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo-section">
+                        <h1 class="app-title">
+                            <span>⌨️</span>
+                            <span data-i18n="app.title">Clavier Arabe Universel</span>
+                        </h1>
+                        <p class="app-subtitle" data-i18n="app.subtitle">Plateforme multilingue professionnelle</p>
+                    </div>
+                    
+                    <div class="header-controls">
+                        <!-- Sélecteur de langue d'interface -->
+                        <div class="language-selector">
+                            <button class="language-btn" type="button">
+                                <span class="language-flag">🇫🇷</span>
+                                <span class="language-name">Français</span>
+                                <span class="language-arrow">▼</span>
+                            </button>
+                            <div class="language-menu hidden">
+                                <!-- Options de langue générées dynamiquement -->
+                            </div>
+                        </div>
+                        
+                        <!-- Bouton de thème -->
+                        <button class="theme-toggle" type="button" title="Changer de thème">
+                            ☀️
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Section de compatibilité -->
+        <section class="compatibility-section">
+            <div class="container">
+                <div class="compatibility-content">
+                    <h2 data-i18n="compatibility.title">🌐 Compatible avec toutes les plateformes</h2>
+                    <p data-i18n="compatibility.description">Utilisez votre clavier multilingue professionnel partout sur le web</p>
+                    
+                    <div class="platform-icons">
+                        <div class="platform-icon">
+                            <div class="icon">📧</div>
+                            <div class="label" data-i18n="platforms.email">Email</div>
+                        </div>
+                        <div class="platform-icon">
+                            <div class="icon">📱</div>
+                            <div class="label" data-i18n="platforms.social">Réseaux sociaux</div>
+                        </div>
+                        <div class="platform-icon">
+                            <div class="icon">🌐</div>
+                            <div class="label" data-i18n="platforms.blogs">Blogs & Sites</div>
+                        </div>
+                        <div class="platform-icon">
+                            <div class="icon">📄</div>
+                            <div class="label" data-i18n="platforms.documents">Documents</div>
+                        </div>
+                        <div class="platform-icon">
+                            <div class="icon">🎓</div>
+                            <div class="label" data-i18n="platforms.education">Éducation</div>
+                        </div>
+                    </div>
+                    
+                    <div class="usage-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h4 data-i18n="steps.type">Tapez votre contenu</h4>
+                            <p data-i18n="steps.type.desc">Utilisez le clavier intelligent ci-dessous</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h4 data-i18n="steps.copy">Copiez le texte</h4>
+                            <p data-i18n="steps.copy.desc">Un clic pour copier tout le contenu</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h4 data-i18n="steps.paste">Collez n'importe où</h4>
+                            <p data-i18n="steps.paste.desc">Facebook, Gmail, WhatsApp Web, etc.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <h4 data-i18n="steps.share">Partagez !</h4>
+                            <p data-i18n="steps.share.desc">Votre contenu multilingue est prêt</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Panneau principal -->
+        <main class="main-panel">
+            <div class="container">
+                <!-- Sélecteur de langue de saisie -->
+                <section class="input-language-selector">
+                    <h3 data-i18n="input.language.title">Choisissez votre langue de saisie :</h3>
+                    <div class="input-language-buttons">
+                        <button class="input-lang-btn active" data-lang="ar">
+                            <span class="flag">🇸🇦</span>
+                            <span class="name" data-i18n="languages.arabic">العربية</span>
+                            <span class="desc" data-i18n="languages.arabic.desc">Arabe standard</span>
+                        </button>
+                        <button class="input-lang-btn" data-lang="ar-ma">
+                            <span class="flag">🇲🇦</span>
+                            <span class="name" data-i18n="languages.darija">الدارجة</span>
+                            <span class="desc" data-i18n="languages.darija.desc">Arabe marocain</span>
+                        </button>
+                        <button class="input-lang-btn" data-lang="fr">
+                            <span class="flag">🇫🇷</span>
+                            <span class="name" data-i18n="languages.french">Français</span>
+                            <span class="desc" data-i18n="languages.french.desc">Français standard</span>
+                        </button>
+                        <button class="input-lang-btn" data-lang="en">
+                            <span class="flag">🇺🇸</span>
+                            <span class="name" data-i18n="languages.english">English</span>
+                            <span class="desc" data-i18n="languages.english.desc">English standard</span>
+                        </button>
+                        <button class="input-lang-btn" data-lang="ber">
+                            <span class="flag">🏔️</span>
+                            <span class="name" data-i18n="languages.amazigh">ⵜⴰⵎⴰⵣⵉⵖⵜ</span>
+                            <span class="desc" data-i18n="languages.amazigh.desc">Tifinagh</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Onglets -->
+                <div class="tabs-container">
+                    <div class="tabs">
+                        <button class="tab active" data-tab-id="editor">
+                            <span class="icon">✍️</span>
+                            <span data-i18n="tabs.editor">Éditeur</span>
+                        </button>
+                        <button class="tab" data-tab-id="phonetic">
+                            <span class="icon">🔤</span>
+                            <span data-i18n="tabs.phonetic">Phonétique</span>
+                        </button>
+                        <button class="tab" data-tab-id="tools">
+                            <span class="icon">🛠️</span>
+                            <span data-i18n="tabs.tools">Outils</span>
+                        </button>
+                        <button class="tab" data-tab-id="export">
+                            <span class="icon">📤</span>
+                            <span data-i18n="tabs.export">Export</span>
+                        </button>
+                        <button class="tab" data-tab-id="blogger">
+                            <span class="icon">📝</span>
+                            <span data-i18n="tabs.blogger">Blogger</span>
+                        </button>
+                    </div>
+
+                    <div class="tab-content">
+                        <!-- Onglet Éditeur -->
+                        <div class="tab-pane active" data-tab-id="editor">
+                            <div class="editor-container">
+                                <div class="textarea-container">
+                                    <textarea 
+                                        id="main-textarea" 
+                                        class="main-textarea" 
+                                        placeholder="Commencez à taper ici..."
+                                        data-i18n-placeholder="editor.placeholder"
+                                        dir="rtl"
+                                        spellcheck="false">
+                                    </textarea>
+                                    <div class="textarea-info">
+                                        <div class="language-indicator">
+                                            <span data-i18n="current.language">Langue :</span>
+                                            <span id="current-language">العربية</span>
+                                        </div>
+                                        <div class="text-stats">
+                                            <span id="word-count">0</span> <span data-i18n="stats.words">mots</span> •
+                                            <span id="char-count">0</span> <span data-i18n="stats.chars">caractères</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Clavier virtuel -->
+                                <div id="virtual-keyboard" class="virtual-keyboard">
+                                    <!-- Contenu généré dynamiquement -->
+                                </div>
+
+                                <!-- Contrôles de l'éditeur -->
+                                <div class="editor-controls">
+                                    <button class="btn btn-primary" id="copy-text">
+                                        <span>📋</span>
+                                        <span data-i18n="actions.copy">Copier le texte</span>
+                                    </button>
+                                    <button class="btn btn-warning" id="clear-text">
+                                        <span>🗑️</span>
+                                        <span data-i18n="actions.clear">Effacer tout</span>
+                                    </button>
+                                    <button class="btn btn-info" id="toggle-direction">
+                                        <span>🔄</span>
+                                        <span data-i18n="actions.direction">Changer direction</span>
+                                    </button>
+                                    <button class="btn btn-success" id="share-text">
+                                        <span>📤</span>
+                                        <span data-i18n="actions.share">Partager</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Onglet Phonétique -->
+                        <div class="tab-pane" data-tab-id="phonetic">
+                            <div class="phonetic-container">
+                                <h3 data-i18n="phonetic.title">🔤 Conversion phonétique intelligente</h3>
+                                <p data-i18n="phonetic.description">Tapez en caractères latins et voyez la conversion en temps réel</p>
+                                
+                                <div class="phonetic-input-container">
+                                    <input 
+                                        type="text" 
+                                        id="phonetic-input" 
+                                        class="phonetic-input" 
+                                        placeholder="Tapez ici en caractères latins..."
+                                        data-i18n-placeholder="phonetic.placeholder"
+                                    >
+                                    <div id="phonetic-output" class="phonetic-output"></div>
+                                </div>
+                                
+                                <div class="phonetic-suggestions" id="phonetic-suggestions">
+                                    <!-- Suggestions générées dynamiquement -->
+                                </div>
+                                
+                                <div class="phonetic-examples">
+                                    <h4 data-i18n="phonetic.examples">Exemples de conversion :</h4>
+                                    <div id="phonetic-examples-list">
+                                        <!-- Exemples générés dynamiquement -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Onglet Outils -->
+                        <div class="tab-pane" data-tab-id="tools">
+                            <div class="tools-grid">
+                                <div class="tool-card">
+                                    <h3 data-i18n="tools.optimizer.title">🎯 Optimiseur de contenu</h3>
+                                    <p data-i18n="tools.optimizer.description">Améliorez votre texte avec des suggestions intelligentes</p>
+                                    <button class="btn btn-primary" data-i18n="tools.optimizer.action">Optimiser le texte</button>
+                                </div>
+                                
+                                <div class="tool-card">
+                                    <h3 data-i18n="tools.stats.title">📊 Statistiques détaillées</h3>
+                                    <div class="stats-content">
+                                        <div class="stat-item">
+                                            <span class="stat-label" data-i18n="stats.words">Mots</span>
+                                            <span class="stat-value" id="detailed-word-count">0</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-label" data-i18n="stats.chars">Caractères</span>
+                                            <span class="stat-value" id="detailed-char-count">0</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-label" data-i18n="stats.paragraphs">Paragraphes</span>
+                                            <span class="stat-value" id="paragraph-count">0</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-label" data-i18n="stats.reading.time">Temps de lecture</span>
+                                            <span class="stat-value" id="reading-time">0 min</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tool-card">
+                                    <h3 data-i18n="tools.converter.title">🔄 Convertisseur de format</h3>
+                                    <p data-i18n="tools.converter.description">Convertissez votre texte en différents formats</p>
+                                    <div class="converter-buttons">
+                                        <button class="btn btn-secondary" id="to-uppercase" data-i18n="tools.converter.uppercase">MAJUSCULES</button>
+                                        <button class="btn btn-secondary" id="to-lowercase" data-i18n="tools.converter.lowercase">minuscules</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Onglet Export -->
+                        <div class="tab-pane" data-tab-id="export">
+                            <div class="export-container">
+                                <h3 data-i18n="export.title">📤 Exporter votre contenu</h3>
+                                <p data-i18n="export.description">Choisissez le format d'export qui vous convient</p>
+                                
+                                <div class="export-formats">
+                                    <button class="export-format-btn" data-format="txt">
+                                        <span class="format-icon">📄</span>
+                                        <span class="format-name">Texte (.txt)</span>
+                                        <span class="format-desc" data-i18n="export.txt.desc">Fichier texte simple</span>
+                                    </button>
+                                    <button class="export-format-btn" data-format="html">
+                                        <span class="format-icon">🌐</span>
+                                        <span class="format-name">HTML (.html)</span>
+                                        <span class="format-desc" data-i18n="export.html.desc">Page web formatée</span>
+                                    </button>
+                                    <button class="export-format-btn" data-format="pdf">
+                                        <span class="format-icon">📋</span>
+                                        <span class="format-name">PDF (.pdf)</span>
+                                        <span class="format-desc" data-i18n="export.pdf.desc">Document portable</span>
+                                    </button>
+                                    <button class="export-format-btn" data-format="json">
+                                        <span class="format-icon">⚙️</span>
+                                        <span class="format-name">JSON (.json)</span>
+                                        <span class="format-desc" data-i18n="export.json.desc">Données structurées</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Onglet Blogger -->
+                        <div class="tab-pane" data-tab-id="blogger">
+                            <div class="blogger-container">
+                                <h3 data-i18n="blogger.title">📝 Intégration Google Blogger</h3>
+                                <p data-i18n="blogger.description">Publiez directement votre contenu sur votre blog Blogger</p>
+                                
+                                <div class="blogger-section">
+                                    <div class="auth-status">
+                                        <div class="status-icon">🔐</div>
+                                        <div class="status-text">
+                                            <h4 data-i18n="blogger.auth.required">Authentification requise</h4>
+                                            <p data-i18n="blogger.auth.description">Connectez-vous à votre compte Google pour accéder à vos blogs</p>
+                                        </div>
+                                        <button class="btn btn-primary" id="blogger-login" data-i18n="blogger.auth.login">Se connecter avec Google</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Pied de page -->
+        <footer class="app-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-info">
+                        <p data-i18n="footer.copyright">© 2024 Clavier Arabe Universel. Plateforme multilingue professionnelle.</p>
+                        <p data-i18n="footer.description">Supportant l'arabe, le darija, le français, l'anglais et l'amazigh.</p>
+                    </div>
+                    <div class="footer-links">
+                        <a href="#" data-i18n="footer.help">Aide</a>
+                        <a href="#" data-i18n="footer.privacy">Confidentialité</a>
+                        <a href="#" data-i18n="footer.terms">Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
+

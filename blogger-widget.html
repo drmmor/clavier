@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clavier Arabe Universel - Widget Blogger</title>
+    <style>
+        /* Styles CSS intégrés pour le widget Blogger */
+        .arabic-keyboard-widget {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 100%;
+            margin: 20px auto;
+            background: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .widget-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        .widget-title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .widget-subtitle {
+            margin: 5px 0 0 0;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .language-selector {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .language-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .lang-btn {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .lang-btn:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .lang-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .editor-section {
+            padding: 20px;
+        }
+
+        .textarea-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .main-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Noto Sans Arabic', 'Segoe UI', sans-serif;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .main-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .textarea-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .virtual-keyboard {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 5px;
+            gap: 3px;
+        }
+
+        .key {
+            min-width: 35px;
+            height: 35px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .key:hover {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            transform: translateY(-1px);
+        }
+
+        .key:active {
+            transform: translateY(0);
+            background: #bbdefb;
+        }
+
+        .key.special {
+            background: #f5f5f5;
+            font-size: 11px;
+            min-width: 50px;
+        }
+
+        .key.space {
+            min-width: 200px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .language-buttons {
+                flex-direction: column;
+            }
+            
+            .lang-btn {
+                justify-content: center;
+            }
+            
+            .key {
+                min-width: 30px;
+                height: 30px;
+                font-size: 12px;
+            }
+            
+            .key.space {
+                min-width: 150px;
+            }
+        }
+
+        /* Animation de notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4caf50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="arabic-keyboard-widget" id="arabicKeyboardWidget">
+        <!-- En-tête du widget -->
+        <div class="widget-header">
+            <h2 class="widget-title">⌨️ Clavier Arabe Universel</h2>
+            <p class="widget-subtitle">Darija • Français • English • ⵜⴰⵎⴰⵣⵉⵖⵜ</p>
+        </div>
+
+        <!-- Sélecteur de langue -->
+        <div class="language-selector">
+            <div class="language-buttons">
+                <button class="lang-btn active" data-lang="ar" data-keyboard="arabic">
+                    <span>🇸🇦</span>
+                    <span>العربية</span>
+                </button>
+                <button class="lang-btn" data-lang="ar-ma" data-keyboard="darija">
+                    <span>🇲🇦</span>
+                    <span>الدارجة</span>
+                </button>
+                <button class="lang-btn" data-lang="fr" data-keyboard="azerty">
+                    <span>🇫🇷</span>
+                    <span>Français</span>
+                </button>
+                <button class="lang-btn" data-lang="en" data-keyboard="qwerty">
+                    <span>🇺🇸</span>
+                    <span>English</span>
+                </button>
+                <button class="lang-btn" data-lang="ber" data-keyboard="tifinagh">
+                    <span>🏔️</span>
+                    <span>ⵜⴰⵎⴰⵣⵉⵖⵜ</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Section éditeur -->
+        <div class="editor-section">
+            <div class="textarea-container">
+                <textarea 
+                    id="mainTextarea" 
+                    class="main-textarea" 
+                    placeholder="ابدأ الكتابة هنا... / Commencez à taper ici..."
+                    dir="rtl"
+                    spellcheck="false">
+                </textarea>
+                <div class="textarea-info">
+                    <div class="language-indicator">
+                        <span>Langue: </span>
+                        <span id="currentLanguage">العربية</span>
+                    </div>
+                    <div class="text-stats">
+                        <span id="charCount">0</span> caractères • 
+                        <span id="wordCount">0</span> mots
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clavier virtuel -->
+            <div class="virtual-keyboard" id="virtualKeyboard">
+                <!-- Le clavier sera généré dynamiquement -->
+            </div>
+
+            <!-- Contrôles -->
+            <div class="controls">
+                <button class="btn btn-primary" id="copyBtn">
+                    <span>📋</span>
+                    <span>Copier</span>
+                </button>
+                <button class="btn btn-secondary" id="clearBtn">
+                    <span>🗑️</span>
+                    <span>Effacer</span>
+                </button>
+                <button class="btn btn-warning" id="directionBtn">
+                    <span>🔄</span>
+                    <span>Direction</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Widget Clavier Arabe Universel pour Blogger
+        class ArabicKeyboardWidget {
+            constructor() {
+                this.currentLanguage = 'ar';
+                this.currentKeyboard = 'arabic';
+                this.textarea = document.getElementById('mainTextarea');
+                this.virtualKeyboard = document.getElementById('virtualKeyboard');
+                this.isShiftPressed = false;
+                
+                // Définition des claviers
+                this.keyboards = {
+                    arabic: [
+                        ['ذ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
+                        ['ض', 'ص', 'ث', 'ق', 'ف', 'غ', 'ع', 'ه', 'خ', 'ح', 'ج', 'د'],
+                        ['ش', 'س', 'ي', 'ب', 'ل', 'ا', 'ت', 'ن', 'م', 'ك', 'ط'],
+                        ['ئ', 'ء', 'ؤ', 'ر', 'لا', 'ى', 'ة', 'و', 'ز', 'ظ'],
+                        ['مسافة']
+                    ],
+                    darija: [
+                        ['ذ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
+                        ['ض', 'ص', 'ث', 'ق', 'ف', 'غ', 'ع', 'ه', 'خ', 'ح', 'ج', 'د'],
+                        ['ش', 'س', 'ي', 'ب', 'ل', 'ا', 'ت', 'ن', 'م', 'ك', 'ط'],
+                        ['ئ', 'ء', 'ؤ', 'ر', 'لا', 'ى', 'ة', 'و', 'ز', 'ظ'],
+                        ['مسافة']
+                    ],
+                    azerty: [
+                        ['&', 'é', '"', "'", '(', '-', 'è', '_', 'ç', 'à', ')', '='],
+                        ['a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '^', '$'],
+                        ['q', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'ù'],
+                        ['w', 'x', 'c', 'v', 'b', 'n', ',', ';', ':', '!'],
+                        ['espace']
+                    ],
+                    qwerty: [
+                        ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
+                        ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']'],
+                        ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'"],
+                        ['z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/'],
+                        ['space']
+                    ],
+                    tifinagh: [
+                        ['⵰', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
+                        ['ⵣ', 'ⵡ', 'ⴻ', 'ⵔ', 'ⵜ', 'ⵢ', 'ⵓ', 'ⵉ', 'ⵄ', 'ⵃ', 'ⵊ', 'ⴷ'],
+                        ['ⴰ', 'ⵙ', 'ⴷ', 'ⴼ', 'ⴳ', 'ⵀ', 'ⵊ', 'ⴽ', 'ⵍ', 'ⵎ', 'ⵏ'],
+                        ['ⵛ', 'ⵅ', 'ⵇ', 'ⴱ', 'ⵏ', 'ⵎ', ',', '.', '/'],
+                        ['ⴰⵙⵉⴼ']
+                    ]
+                };
+
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.renderKeyboard();
+                this.updateStats();
+            }
+
+            setupEventListeners() {
+                // Sélecteurs de langue
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.switchLanguage(e.target.closest('.lang-btn'));
+                    });
+                });
+
+                // Boutons de contrôle
+                document.getElementById('copyBtn').addEventListener('click', () => this.copyText());
+                document.getElementById('clearBtn').addEventListener('click', () => this.clearText());
+                document.getElementById('directionBtn').addEventListener('click', () => this.toggleDirection());
+
+                // Textarea events
+                this.textarea.addEventListener('input', () => this.updateStats());
+                this.textarea.addEventListener('keydown', (e) => this.handleKeyDown(e));
+            }
+
+            switchLanguage(btn) {
+                // Retirer la classe active de tous les boutons
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                
+                // Ajouter la classe active au bouton cliqué
+                btn.classList.add('active');
+                
+                // Mettre à jour la langue et le clavier
+                this.currentLanguage = btn.dataset.lang;
+                this.currentKeyboard = btn.dataset.keyboard;
+                
+                // Mettre à jour l'affichage
+                this.updateLanguageDisplay();
+                this.renderKeyboard();
+                this.updateTextareaDirection();
+            }
+
+            updateLanguageDisplay() {
+                const languageNames = {
+                    'ar': 'العربية',
+                    'ar-ma': 'الدارجة',
+                    'fr': 'Français',
+                    'en': 'English',
+                    'ber': 'ⵜⴰⵎⴰⵣⵉⵖⵜ'
+                };
+                
+                document.getElementById('currentLanguage').textContent = languageNames[this.currentLanguage];
+            }
+
+            updateTextareaDirection() {
+                const rtlLanguages = ['ar', 'ar-ma', 'ber'];
+                this.textarea.dir = rtlLanguages.includes(this.currentLanguage) ? 'rtl' : 'ltr';
+            }
+
+            renderKeyboard() {
+                const keyboard = this.keyboards[this.currentKeyboard];
+                this.virtualKeyboard.innerHTML = '';
+
+                keyboard.forEach(row => {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'keyboard-row';
+
+                    row.forEach(key => {
+                        const keyBtn = document.createElement('button');
+                        keyBtn.className = 'key';
+                        keyBtn.textContent = key;
+                        
+                        if (key === 'مسافة' || key === 'espace' || key === 'space' || key === 'ⴰⵙⵉⴼ') {
+                            keyBtn.className += ' space';
+                            keyBtn.textContent = '⎵';
+                        }
+
+                        keyBtn.addEventListener('click', () => this.insertCharacter(key));
+                        rowDiv.appendChild(keyBtn);
+                    });
+
+                    this.virtualKeyboard.appendChild(rowDiv);
+                });
+            }
+
+            insertCharacter(char) {
+                const start = this.textarea.selectionStart;
+                const end = this.textarea.selectionEnd;
+                const value = this.textarea.value;
+
+                if (char === 'مسافة' || char === 'espace' || char === 'space' || char === 'ⴰⵙⵉⴼ') {
+                    char = ' ';
+                }
+
+                this.textarea.value = value.substring(0, start) + char + value.substring(end);
+                this.textarea.selectionStart = this.textarea.selectionEnd = start + char.length;
+                this.textarea.focus();
+                this.updateStats();
+            }
+
+            handleKeyDown(e) {
+                if (e.key === 'Tab') {
+                    e.preventDefault();
+                    this.insertCharacter('    ');
+                }
+            }
+
+            updateStats() {
+                const text = this.textarea.value;
+                const charCount = text.length;
+                const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+
+                document.getElementById('charCount').textContent = charCount;
+                document.getElementById('wordCount').textContent = wordCount;
+            }
+
+            async copyText() {
+                try {
+                    await navigator.clipboard.writeText(this.textarea.value);
+                    this.showNotification('Texte copié avec succès !', 'success');
+                } catch (err) {
+                    this.showNotification('Erreur lors de la copie', 'error');
+                }
+            }
+
+            clearText() {
+                this.textarea.value = '';
+                this.textarea.focus();
+                this.updateStats();
+                this.showNotification('Texte effacé', 'success');
+            }
+
+            toggleDirection() {
+                this.textarea.dir = this.textarea.dir === 'rtl' ? 'ltr' : 'rtl';
+                this.showNotification(`Direction: ${this.textarea.dir.toUpperCase()}`, 'success');
+            }
+
+            showNotification(message, type = 'success') {
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => notification.classList.add('show'), 100);
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => document.body.removeChild(notification), 300);
+                }, 3000);
+            }
+        }
+
+        // Initialiser le widget quand le DOM est prêt
+        document.addEventListener('DOMContentLoaded', () => {
+            new ArabicKeyboardWidget();
+        });
+    </script>
+</body>
+</html>
+

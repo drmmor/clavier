@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clavier Arabe Compact - Widget Blogger</title>
+    <style>
+        /* Version compacte pour barres latérales */
+        .compact-keyboard-widget {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 100%;
+            max-width: 300px;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 10px auto;
+        }
+
+        .compact-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .compact-title {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .compact-subtitle {
+            margin: 3px 0 0 0;
+            font-size: 10px;
+            opacity: 0.9;
+        }
+
+        .compact-lang-selector {
+            padding: 8px;
+            background: #f8f9fa;
+        }
+
+        .compact-lang-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+        }
+
+        .compact-lang-btn {
+            padding: 6px 8px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 10px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .compact-lang-btn:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .compact-lang-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .compact-editor {
+            padding: 10px;
+        }
+
+        .compact-textarea {
+            width: 100%;
+            height: 80px;
+            padding: 8px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: 'Noto Sans Arabic', 'Segoe UI', sans-serif;
+            resize: vertical;
+            margin-bottom: 8px;
+        }
+
+        .compact-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .compact-keyboard {
+            background: #f8f9fa;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+
+        .compact-row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3px;
+            gap: 2px;
+        }
+
+        .compact-key {
+            min-width: 20px;
+            height: 25px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 10px;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .compact-key:hover {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .compact-key.space {
+            min-width: 80px;
+        }
+
+        .compact-controls {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+        }
+
+        .compact-btn {
+            padding: 4px 8px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .compact-btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .compact-btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .compact-stats {
+            text-align: center;
+            font-size: 9px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Notification compacte */
+        .compact-notification {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #4caf50;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .compact-notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="compact-keyboard-widget" id="compactKeyboardWidget">
+        <!-- En-tête compact -->
+        <div class="compact-header">
+            <h3 class="compact-title">⌨️ Clavier Arabe</h3>
+            <p class="compact-subtitle">Multilingue</p>
+        </div>
+
+        <!-- Sélecteur de langue compact -->
+        <div class="compact-lang-selector">
+            <div class="compact-lang-buttons">
+                <button class="compact-lang-btn active" data-lang="ar">🇸🇦 عربي</button>
+                <button class="compact-lang-btn" data-lang="ar-ma">🇲🇦 دارجة</button>
+                <button class="compact-lang-btn" data-lang="fr">🇫🇷 FR</button>
+                <button class="compact-lang-btn" data-lang="en">🇺🇸 EN</button>
+                <button class="compact-lang-btn" data-lang="ber">🏔️ ⵜⵎⵣⵖⵜ</button>
+            </div>
+        </div>
+
+        <!-- Éditeur compact -->
+        <div class="compact-editor">
+            <textarea 
+                id="compactTextarea" 
+                class="compact-textarea" 
+                placeholder="اكتب هنا..."
+                dir="rtl">
+            </textarea>
+
+            <!-- Clavier virtuel compact -->
+            <div class="compact-keyboard" id="compactKeyboard">
+                <!-- Généré dynamiquement -->
+            </div>
+
+            <!-- Contrôles compacts -->
+            <div class="compact-controls">
+                <button class="compact-btn compact-btn-primary" id="compactCopyBtn">📋</button>
+                <button class="compact-btn compact-btn-secondary" id="compactClearBtn">🗑️</button>
+                <button class="compact-btn compact-btn-secondary" id="compactDirBtn">🔄</button>
+            </div>
+
+            <!-- Statistiques -->
+            <div class="compact-stats">
+                <span id="compactCharCount">0</span> car. • <span id="compactWordCount">0</span> mots
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class CompactArabicKeyboard {
+            constructor() {
+                this.currentLanguage = 'ar';
+                this.textarea = document.getElementById('compactTextarea');
+                this.keyboard = document.getElementById('compactKeyboard');
+                
+                // Claviers simplifiés pour version compacte
+                this.compactKeyboards = {
+                    ar: [
+                        ['ض', 'ص', 'ث', 'ق', 'ف'],
+                        ['ش', 'س', 'ي', 'ب', 'ل'],
+                        ['ا', 'ت', 'ن', 'م', 'ك'],
+                        ['و', 'ر', 'ة', 'ى', 'ء'],
+                        ['مسافة']
+                    ],
+                    'ar-ma': [
+                        ['ض', 'ص', 'ث', 'ق', 'ف'],
+                        ['ش', 'س', 'ي', 'ب', 'ل'],
+                        ['ا', 'ت', 'ن', 'م', 'ك'],
+                        ['و', 'ر', 'ة', 'ى', 'ء'],
+                        ['مسافة']
+                    ],
+                    fr: [
+                        ['a', 'z', 'e', 'r', 't'],
+                        ['q', 's', 'd', 'f', 'g'],
+                        ['w', 'x', 'c', 'v', 'b'],
+                        ['é', 'è', 'à', 'ç', 'ù'],
+                        ['espace']
+                    ],
+                    en: [
+                        ['q', 'w', 'e', 'r', 't'],
+                        ['a', 's', 'd', 'f', 'g'],
+                        ['z', 'x', 'c', 'v', 'b'],
+                        ['y', 'u', 'i', 'o', 'p'],
+                        ['space']
+                    ],
+                    ber: [
+                        ['ⵜ', 'ⴰ', 'ⵎ', 'ⴰ', 'ⵣ'],
+                        ['ⵉ', 'ⵖ', 'ⵜ', 'ⵏ', 'ⵓ'],
+                        ['ⵔ', 'ⵙ', 'ⵍ', 'ⴽ', 'ⴷ'],
+                        ['ⵃ', 'ⵊ', 'ⴼ', 'ⴱ', 'ⵇ'],
+                        ['ⴰⵙⵉⴼ']
+                    ]
+                };
+
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.renderKeyboard();
+                this.updateStats();
+            }
+
+            setupEventListeners() {
+                // Sélecteurs de langue
+                document.querySelectorAll('.compact-lang-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.switchLanguage(e.target);
+                    });
+                });
+
+                // Boutons de contrôle
+                document.getElementById('compactCopyBtn').addEventListener('click', () => this.copyText());
+                document.getElementById('compactClearBtn').addEventListener('click', () => this.clearText());
+                document.getElementById('compactDirBtn').addEventListener('click', () => this.toggleDirection());
+
+                // Textarea
+                this.textarea.addEventListener('input', () => this.updateStats());
+            }
+
+            switchLanguage(btn) {
+                document.querySelectorAll('.compact-lang-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                this.currentLanguage = btn.dataset.lang;
+                this.renderKeyboard();
+                this.updateDirection();
+            }
+
+            updateDirection() {
+                const rtlLanguages = ['ar', 'ar-ma', 'ber'];
+                this.textarea.dir = rtlLanguages.includes(this.currentLanguage) ? 'rtl' : 'ltr';
+            }
+
+            renderKeyboard() {
+                const keyboard = this.compactKeyboards[this.currentLanguage];
+                this.keyboard.innerHTML = '';
+
+                keyboard.forEach(row => {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'compact-row';
+
+                    row.forEach(key => {
+                        const keyBtn = document.createElement('button');
+                        keyBtn.className = 'compact-key';
+                        keyBtn.textContent = key;
+                        
+                        if (key === 'مسافة' || key === 'espace' || key === 'space' || key === 'ⴰⵙⵉⴼ') {
+                            keyBtn.className += ' space';
+                            keyBtn.textContent = '⎵';
+                        }
+
+                        keyBtn.addEventListener('click', () => this.insertChar(key));
+                        rowDiv.appendChild(keyBtn);
+                    });
+
+                    this.keyboard.appendChild(rowDiv);
+                });
+            }
+
+            insertChar(char) {
+                if (char === 'مسافة' || char === 'espace' || char === 'space' || char === 'ⴰⵙⵉⴼ') {
+                    char = ' ';
+                }
+
+                const start = this.textarea.selectionStart;
+                const end = this.textarea.selectionEnd;
+                const value = this.textarea.value;
+
+                this.textarea.value = value.substring(0, start) + char + value.substring(end);
+                this.textarea.selectionStart = this.textarea.selectionEnd = start + char.length;
+                this.textarea.focus();
+                this.updateStats();
+            }
+
+            updateStats() {
+                const text = this.textarea.value;
+                const charCount = text.length;
+                const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+
+                document.getElementById('compactCharCount').textContent = charCount;
+                document.getElementById('compactWordCount').textContent = wordCount;
+            }
+
+            async copyText() {
+                try {
+                    await navigator.clipboard.writeText(this.textarea.value);
+                    this.showNotification('Copié !');
+                } catch (err) {
+                    this.showNotification('Erreur');
+                }
+            }
+
+            clearText() {
+                this.textarea.value = '';
+                this.textarea.focus();
+                this.updateStats();
+                this.showNotification('Effacé');
+            }
+
+            toggleDirection() {
+                this.textarea.dir = this.textarea.dir === 'rtl' ? 'ltr' : 'rtl';
+                this.showNotification(this.textarea.dir.toUpperCase());
+            }
+
+            showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'compact-notification';
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => notification.classList.add('show'), 100);
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => document.body.removeChild(notification), 300);
+                }, 2000);
+            }
+        }
+
+        // Initialiser le widget compact
+        document.addEventListener('DOMContentLoaded', () => {
+            new CompactArabicKeyboard();
+        });
+    </script>
+</body>
+</html>
+
